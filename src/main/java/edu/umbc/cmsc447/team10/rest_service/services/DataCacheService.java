@@ -27,7 +27,7 @@ public class DataCacheService {
     }
 
     public State byName(String name) {
-        if (System.currentTimeMillis() > lastUpdateTime + dataCacheConfiguration.getUpdateInterval() * 1000)
+        if (shouldUpdateCache())
             updateCache();
         return stateCache.get(name.toLowerCase());
     }
@@ -36,6 +36,17 @@ public class DataCacheService {
         return stateCache.values();
     }
 
+    /**
+     * @return Whether or not the cache of vaccine/case information should be updated, based on the last update time and
+     * configured update interval.
+     */
+    private boolean shouldUpdateCache() {
+        return System.currentTimeMillis() > lastUpdateTime + dataCacheConfiguration.getUpdateInterval() * 1000;
+    }
+
+    /**
+     * Updates cached data.
+     */
     private void updateCache() {
         long interval = dataCacheConfiguration.getUpdateInterval();
         System.out.printf("Last update was more than %s second%s ago. Requesting updates...\n",
