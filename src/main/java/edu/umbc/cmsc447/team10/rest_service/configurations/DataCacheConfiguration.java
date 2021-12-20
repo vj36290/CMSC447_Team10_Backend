@@ -8,7 +8,14 @@ public class DataCacheConfiguration {
     @Value("${update-interval}")
     private long updateInterval;
 
+    @Value("${api-key}")
+    private String apiKey;
+
     public long getUpdateInterval() {
         return updateInterval;
+    }
+
+    public String getApiKey() {
+        return apiKey;
     }
 }

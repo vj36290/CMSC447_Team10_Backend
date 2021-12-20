@@ -1,7 +1,8 @@
 package edu.umbc.cmsc447.team10.rest_service.services;
 
 import edu.umbc.cmsc447.team10.rest_service.configurations.DataCacheConfiguration;
-import edu.umbc.cmsc447.team10.rest_service.data.State;
+import edu.umbc.cmsc447.team10.rest_service.data.County;
+import edu.umbc.cmsc447.team10.rest_service.data.USRegion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,20 +21,36 @@ public class DataCacheService {
 
     private long lastUpdateTime;
 
-    public Map<String, State> stateCache;
+    public Map<String, USRegion> stateCache;
+    public Map<String, County> countyCache;
 
     public DataCacheService() {
         stateCache = new HashMap<>();
+        countyCache = new HashMap<>();
     }
 
-    public State byName(String name) {
+    public USRegion byStateName(String name) {
         if (shouldUpdateCache())
             updateCache();
         return stateCache.get(name.toLowerCase());
     }
 
-    public Collection<State> allStateData() {
+    public Collection<USRegion> allStateData() {
+        if (shouldUpdateCache())
+            updateCache();
         return stateCache.values();
+    }
+
+    public County byCountyFips(String fips) {
+        if (shouldUpdateCache())
+            updateCache();
+        return countyCache.get(fips);
+    }
+
+    public Collection<County> allCountyData() {
+        if (shouldUpdateCache())
+            updateCache();
+        return countyCache.values();
     }
 
     /**
@@ -41,7 +58,7 @@ public class DataCacheService {
      * configured update interval.
      */
     private boolean shouldUpdateCache() {
-        return System.currentTimeMillis() > lastUpdateTime + dataCacheConfiguration.getUpdateInterval() * 1000;
+        return System.currentTimeMillis() > lastUpdateTime + (dataCacheConfiguration.getUpdateInterval() * 1000);
     }
 
     /**
@@ -54,6 +71,8 @@ public class DataCacheService {
         Arrays.stream(dataRetrievalService.getAllStateInfections()).forEach(state ->
             stateCache.put(state.state.toLowerCase(), state)
         );
+        Arrays.stream(dataRetrievalService.getAllCountyInfections()).forEach(county ->
+                countyCache.put(county.fips, county));
         lastUpdateTime = System.currentTimeMillis();
     }
 }
