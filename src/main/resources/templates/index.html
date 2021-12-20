@@ -1,18 +1,39 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Getting Started: Serving Web Content</title>
+    <title>Index | CMSC447 Fa2021 - Team 10</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<h2>Endpoints</h2>
-<h3>/</h3>
-<div>This is the index. You're looking at it.</div>
-<h3>/states</h3>
-<div>Returns a JSON array where each element corresponds to data for a US state or territory.</div>
-<h3>/states/{state}</h3>
-<div>Returns a JSON object corresponding to the requested state or territory (case-insensitive).</div>
-<br />
-<div style="font-size:8px">Remember to boycott Black Friday and Cyber Monday to show support for the working class.</div>
+<div>
+    <h2>Endpoints</h2>
+
+    <div>
+        <h3>/</h3>
+        <p>This is the index. You're looking at it. I am not a web designer, so it is ugly.</p>
+    </div>
+
+    <div>
+        <h3>/states</h3>
+        <p>Returns a JSON array where each element corresponds to data for a US state or territory.</p>
+    </div>
+
+    <div>
+        <h3>/states/{state}</h3>
+        <p>Returns a JSON object corresponding to the requested state or territory (case-insensitive).</p>
+    </div>
+
+    <div>
+        <h3>/counties</h3>
+        <p>Returns a JSON array where each element corresponds to data for a US county.</p>
+    </div>
+
+    <div>
+        <h3>/counties/{fips}</h3>
+        <p>Returns a JSON object corresponding to the requested county by FIPS code. Please include the leading zero.</p>
+    </div>
+
+    <br />
+</div>
 </body>
 </html>
